@@ -1,10 +1,11 @@
 
 	/* 设置容器的样式 */
+	/* 主容器 */
 	#main-container {
 	  position: fixed;
 		top: 5%;
-		left: 10%;
-	  width: 80%;
+		left: 5%;
+	  width: 75%;
 	  height: 90%;
 	  margin: 0 auto;
 	  background-color: #ccc;
@@ -23,3 +24,28 @@
 		  width: 100%;
 		  z-index: 3;
 	  }
+
+	/* 副容器 */
+	#min-container1 {
+		position: fixed;
+		top: 5%;
+		left: 82%;
+		width: 16%;
+		height: 20%;
+		margin: 0 auto;
+		background-color: #030303;
+		outline: 2px solid rgb(62, 16, 75);
+		outline-offset: 0px;
+		z-index: 2;
+		display: flex;
+		  justify-content: center;
+		  align-items: center;
+	  }
+	#map2 {
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		width: 100%;
+		z-index: 3;
+	}
+  
