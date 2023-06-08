@@ -5,14 +5,14 @@
 	  position: fixed;
 		top: 5%;
 		left: 5%;
-	  width: 75%;
-	  height: 90%;
-	  margin: 0 auto;
-	  background-color: #ccc;
-	  outline: 6px solid rgb(62, 16, 75);
-	  outline-offset: 0px;
-	  z-index: 2;
-	  display: flex;
+	  	width: 75%;
+	  	height: 90%;
+	  	margin: 0 auto;
+	  	background-color: #ccc;
+	  	outline: 6px solid rgb(62, 16, 75);
+	  	outline-offset: 0px;
+	  	z-index: 2;
+	  	display: flex;
 		justify-content: center;
 		align-items: center;
 	}
@@ -38,9 +38,9 @@
 		outline-offset: 0px;
 		z-index: 2;
 		display: flex;
-		  justify-content: center;
-		  align-items: center;
-	  }
+		justify-content: center;
+		align-items: center;
+	}
 	#map2 {
 		position: absolute;
 		top: 0;
