@@ -24,9 +24,12 @@
 		var DatatupleList=GetFlowData();
 		//加载流
 		var drawnum=0;
+		//颜色
+		var colorList=['cold','warm','cold','warm','cold','warm','cold','warm','cold','warm','cold','warm']
 		map1.on('click', (event) => {
 			clearMap(map1);
-			odFlowSence(map1,DatatupleList[drawnum][0],DatatupleList[drawnum][1],drawnum);
+			//函数包括：地图图层，OD流点集，流动强度列表，第几次绘制，绘制颜色色系
+			odFlowSence(map1,DatatupleList[drawnum][0],DatatupleList[drawnum][1],drawnum,colorList[drawnum]);
 			drawnum++;
 		})
 

@@ -95,8 +95,17 @@ function getArcFeature(lineList, valueList)
 //-----------------------------------------------------------------------------------------
 //绘制弧线图层
 //以下所有绘制的流，都必须添加一个统一标识字段“_flow”
-function addArctoMap(map1,featureCollection,lineList, valueList,drawnum)//输入：map，弧线集合，点集（为了取得终点），强度集
+function addArctoMap(map1,featureCollection,lineList, valueList,drawnum,colorKind)//输入：map，弧线集合，点集（为了取得终点），强度集
 {
+  if(colorKind=="cold")
+  {
+    var colorList=['rgba(62, 16, 75, 0.4)','rgba(62, 16, 75, 0.6)','#4F709C','#40128B']
+  }
+  else if(colorKind=="warm")
+  {
+    var colorList=['rgba(233, 188, 40, 0.4)','rgba(233, 188, 40, 0.6)','rgb(196, 52, 16)','rgb(129, 22, 0)']
+    
+  }
   //添加线图层
   map1.addSource('line_flow'+drawnum, {
     'type': 'geojson',
@@ -128,11 +137,11 @@ function addArctoMap(map1,featureCollection,lineList, valueList,drawnum)//输入
         ['linear'],
         ['line-progress'],
         0,
-        'rgba(62, 16, 75, 0.4)',
+        colorList[0],
         0.4,
-        'rgba(62, 16, 75, 0.6)',
+        colorList[1],
         1,
-        '#4F709C'
+        colorList[2]
       ]
       
     }
@@ -182,7 +191,7 @@ function addArctoMap(map1,featureCollection,lineList, valueList,drawnum)//输入
         5, // 最大值
         6 // 最大线宽
       ],
-      'circle-color': '#40128B'
+      'circle-color': colorList[3]
     }
   });
 
@@ -213,8 +222,17 @@ function addPoints(map1){
 
 //-----------------------------------------------------------------------------------------
 //流动动画
-function flowanimation(map1,feature,i,start,value,drawnum)
+function flowanimation(map1,feature,i,start,value,drawnum,colorKind)
 {
+  if(colorKind=="cold")
+  {
+    var colorList=['rgba(91, 23, 109, 0.6)']
+  }
+  else if(colorKind=="warm")
+  {
+    var colorList=['rgba(255, 140, 0, 0.81)']
+  }
+
   if(value>3)
   {
     value=3;
@@ -238,7 +256,7 @@ function flowanimation(map1,feature,i,start,value,drawnum)
     
     paint: {
       'circle-radius': value, // 圆的半径
-      'circle-color': 'rgba(91, 23, 109, 0.6)' // 圆的颜色
+      'circle-color':  colorList[0]// 圆的颜色
     }
   });
   
@@ -297,10 +315,19 @@ function flowanimation(map1,feature,i,start,value,drawnum)
 
 //-----------------------------------------------------------------------------------------
 //起始点扩散动画
-function changeStartPoint(map1,startpoint,drawnum){
+function changeStartPoint(map1,startpoint,drawnum,colorKind){
+
+  if(colorKind=="cold")
+  {
+    var colorList=['rgba(91, 23, 109, 0.6)','rgba(91, 23, 109, ']
+  }
+  else if(colorKind=="warm")
+  {
+    var colorList=['rgba(255, 170, 0, 0.6)','rgba(255, 170, 0, ']
+  }
+
   // 定义动画持续时间和帧率
   const animationDuration = 5000; // 动画持续时间，单位为毫秒
-  const frameRate = 30; // 帧率，即每秒渲染的帧数
 
   // 定义点的初始大小和最终大小
   const initialSize = 5; // 初始大小
@@ -326,7 +353,7 @@ function changeStartPoint(map1,startpoint,drawnum){
       },
       paint: {
       'circle-radius': initialSize, // 圆的半径
-      'circle-color': 'rgba(91, 23, 109, 0.6)' // 圆的颜色
+      'circle-color': colorList[0] // 圆的颜色
     }
   });
 
@@ -354,7 +381,7 @@ function changeStartPoint(map1,startpoint,drawnum){
             {
               color0;
             }
-            map1.setPaintProperty('point_bigger_flow'+drawnum, 'circle-color', 'rgba(91, 23, 109, '+color0+')');
+            map1.setPaintProperty('point_bigger_flow'+drawnum, 'circle-color', colorList[1]+color0+')');
           }
           
        }
@@ -417,13 +444,13 @@ function clearMap(map) {
 
 //-----------------------------------------------------------------------------------------
 //将所有绘制逻辑全部封装进一个函数，输入：OD流坐标以及强度
-function odFlowSence(map1,lineList,flowValue,drawnum){
+function odFlowSence(map1,lineList,flowValue,drawnum,colorKind){
 
   //获取弧线
   featureCollection=getArcFeature(lineList,flowValue);
 			  
   //绘制弧线
-  addArctoMap(map1,featureCollection,lineList,flowValue,drawnum);
+  addArctoMap(map1,featureCollection,lineList,flowValue,drawnum,colorKind);
 
   //绘制城市点
   //addPoints(map1);
@@ -431,9 +458,9 @@ function odFlowSence(map1,lineList,flowValue,drawnum){
   //绘制流动点
   for (var i = 0; i < featureCollection.features.length; i++)
   {
-    flowanimation(map1,featureCollection.features[i],i,featureCollection.features[0],flowValue[i],drawnum);
+    flowanimation(map1,featureCollection.features[i],i,featureCollection.features[0],flowValue[i],drawnum,colorKind);
   }
 
   //点动画变大
-  changeStartPoint(map1,featureCollection.features[0].geometry.coordinates[0],drawnum);
+  changeStartPoint(map1,featureCollection.features[0].geometry.coordinates[0],drawnum,colorKind);
 }
